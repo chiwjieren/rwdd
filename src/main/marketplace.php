@@ -8,12 +8,12 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="index.html" class="brand">GoGreenTogether</a>
+    <a href="index.php" class="brand">GoGreenTogether</a>
     <div class="nav-links">
-      <a href="aboutus.html">About</a>
-      <a href="event.html">Events</a>
-      <a href="marketplace.html">Marketplace</a>
-      <a href="tips.html">Tips</a>
+      <a href="aboutus.php">About</a>
+      <a href="event.php">Events</a>
+      <a href="marketplace.php">Marketplace</a>
+      <a href="tips.php">Tips</a>
     </div>
   </nav>
 
@@ -41,7 +41,7 @@
   </main>
 
   <footer class="footer">
-    <small><a href="index.html">← Back</a></small>
+    <small><a href="index.php">← Back</a></small>
   </footer>
 
   <script src="assets/js/main.js"></script>

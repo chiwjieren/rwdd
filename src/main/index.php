@@ -8,12 +8,12 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="index.html" class="brand">GoGreenTogether</a>
+    <a href="index.php" class="brand">GoGreenTogether</a>
     <div class="nav-links">
-      <a href="aboutus.html">About</a>
-      <a href="event.html">Events</a>
-      <a href="marketplace.html">Marketplace</a>
-      <a href="tips.html">Tips</a>
+      <a href="aboutus.php">About</a>
+      <a href="event.php">Events</a>
+      <a href="marketplace.php">Marketplace</a>
+      <a href="tips.php">Tips</a>
     </div>
   </nav>
 
@@ -28,7 +28,7 @@
       <h2>Quick Links</h2>
       <ul class="grid-links">
         <li><a href="event.html">Upcoming Events</a></li>
-        <li><a href="marketplace.html">Green Marketplace</a></li>
+        <li><a href="marketplace.php">Green Marketplace</a></li>
         <li><a href="tips.html">Eco Tips</a></li>
       </ul>
     </section>
