@@ -177,6 +177,52 @@ a {
   border-radius: 6px;
 }
 
+/* Calendar Styles */
+.calendar-container {
+  margin: 24px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.calendar-container iframe {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+  background: #fff;
+  border: solid 1px #777 !important;
+  border-radius: 12px;
+}
+
+.calendar-instructions {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+}
+
+.calendar-instructions ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.calendar-instructions li {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.calendar-instructions a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.event-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 /* Components */
 .btn {
   background: var(--accent);
@@ -188,6 +234,12 @@ a {
   width: 100%;
   margin-top: 12px;
   font-size: 1rem;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--accent);
+  border: 1px solid var(--accent);
 }
 
 .meta {
