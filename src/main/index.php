@@ -9,6 +9,11 @@
 <body>
   <nav class="nav">
     <a href="index.php" class="brand">GoGreenTogether</a>
+    <button class="hamburger" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="nav-links">
       <a href="aboutus.php">About</a>
       <a href="event.php">Events</a>
@@ -56,6 +61,6 @@
     <small>© GoGreenTogether — group project</small>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

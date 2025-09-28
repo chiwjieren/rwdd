@@ -38,7 +38,6 @@
       <li>Kwok Xing Wei</li>
     </ul>
 
-    <p class="muted">Project details and data dictionaries are taken from your proposal (users, events, tips, marketplace fields). :contentReference[oaicite:2]{index=2}</p>
   </main>
 
   <footer class="footer">
