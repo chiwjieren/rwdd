@@ -22,37 +22,91 @@
     </div>
   </nav>
 
-  <header class="hero">
-    <h1>GoGreenTogether</h1>
-    <p>Inspire eco-friendly habits and connect your community — tips, events, and a green marketplace.</p>
-    <p class="muted">Built for community engagement: quizzes, events, swaps and marketplace features (see proposal).</p>
-  </header>
+  <!-- Hero Section with Carousel -->
+  <div class="hero-carousel">
+    <div class="carousel-container">
+      <div class="carousel-slide active">
+        <img src="../media/carousel-1.jpg" alt="Community garden project">
+        <div class="carousel-content">
+          <h2>"Building a Greener Future, Together"</h2>
+          <p>Join our community in making sustainable living accessible to everyone</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="../media/carousel-2.jpg" alt="Recycling workshop">
+        <div class="carousel-content">
+          <h2>"Small Actions, Big Impact"</h2>
+          <p>Learn how your daily choices can create positive environmental change</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="../media/carousel-3.jpg" alt="Community cleanup">
+        <div class="carousel-content">
+          <h2>"Together for a Cleaner Tomorrow"</h2>
+          <p>Participate in our community events and make a difference</p>
+        </div>
+      </div>
+      <button class="carousel-btn prev" aria-label="Previous slide">❮</button>
+      <button class="carousel-btn next" aria-label="Next slide">❯</button>
+      <div class="carousel-dots"></div>
+    </div>
+  </div>
 
-  <main class="container">
-    <section>
-      <h2>Quick Links</h2>
-      <ul class="grid-links">
-        <li><a href="event.php">Upcoming Events</a></li>
-        <li><a href="marketplace.php">Green Marketplace</a></li>
-        <li><a href="tips.php">Eco Tips</a></li>
-      </ul>
+  <main>
+    <!-- Partner Companies Marquee -->
+    <section class="partners-section">
+      <h2>Our Partners</h2>
+      <div class="partner-marquee">
+        <div class="marquee-content">
+          <img src="../media/partner1.png" alt="Partner Company 1">
+          <img src="../media/partner2.png" alt="Partner Company 2">
+          <img src="../media/partner3.png" alt="Partner Company 3">
+          <img src="../media/partner4.png" alt="Partner Company 4">
+          <img src="../media/partner5.png" alt="Partner Company 5">
+        </div>
+      </div>
     </section>
 
-    <section>
-      <h2>Highlights</h2>
-      <div class="cards">
-        <article class="card">
-          <h3>Community Events</h3>
-          <p>Workshops and meetups to educate and engage local communities. (Events include title, time, venue and description.)</p>
-        </article>
-        <article class="card">
-          <h3>Marketplace</h3>
-          <p>Swap or buy eco-items — users can add listings and trade locally.</p>
-        </article>
-        <article class="card">
-          <h3>Tips & Quizzes</h3>
-          <p>Short eco-tips and quizzes to reward learning and participation.</p>
-        </article>
+    <!-- Community Highlights -->
+    <section class="community-section container">
+      <h2>Our Flourishing Community</h2>
+      <div class="community-grid">
+        <div class="community-card">
+          <img src="../media/community1.jpg" alt="Community Events">
+          <h3>Events</h3>
+          <p>Join our workshops, cleanups, and eco-friendly activities</p>
+        </div>
+        <div class="community-card">
+          <img src="../media/community2.jpg" alt="Community Projects">
+          <h3>Projects</h3>
+          <p>Participate in ongoing community sustainability projects</p>
+        </div>
+        <div class="community-card">
+          <img src="../media/community3.jpg" alt="Community Impact">
+          <h3>Impact</h3>
+          <p>See the difference we're making together</p>
+        </div>
+      </div>
+      <div class="cta-container">
+        <a href="signup.php" class="btn btn-primary">Get Started</a>
+        <p class="cta-subtext">Join our community and make a difference today!</p>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+      <div class="container">
+        <div class="newsletter-content">
+          <h2>Stay Updated</h2>
+          <p>Subscribe to receive project updates, news, and insights</p>
+          <form class="newsletter-form" action="#" method="POST">
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Enter your email address" required>
+              <button type="submit" class="btn">Subscribe</button>
+            </div>
+            <p class="form-notice">By subscribing, you agree to receive our newsletter and updates.</p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
