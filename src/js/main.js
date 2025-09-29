@@ -1,4 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Password Toggle Functionality
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            const button = e.currentTarget;
+            const input = button.parentElement.querySelector('input');
+            const icon = button.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Form Submission with reCAPTCHA
+    const forms = document.querySelectorAll('.auth-form');
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const recaptchaResponse = grecaptcha.getResponse();
+            
+            if (!recaptchaResponse) {
+                alert('Please complete the reCAPTCHA verification');
+                return;
+            }
+            
+            // Form can be submitted here
+            // For now, just show a success message
+            alert('Form submitted successfully!');
+        });
+    });
+
     // Hamburger Menu
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
