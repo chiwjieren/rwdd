@@ -12,20 +12,14 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <nav class="nav">
-        <a href="index.php" class="brand">GoGreenTogether</a>
-        <button class="hamburger" aria-label="Toggle Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="nav-links">
-            <a href="aboutus.php">About</a>
-            <a href="event.php">Events</a>
-            <a href="marketplace.php">Marketplace</a>
-            <a href="tips.php">Tips</a>
-        </div>
-    </nav>
+    <?php 
+        include 'header.php';
+        // If user is already logged in, redirect to home page
+        if (isLoggedIn()) {
+            header("Location: index.php");
+            exit();
+        }
+    ?>
 
     <main class="container auth-container">
         <div class="auth-box">

@@ -7,20 +7,7 @@
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-  <nav class="nav">
-    <a href="index.php" class="brand">GoGreenTogether</a>
-    <button class="hamburger" aria-label="Toggle Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div class="nav-links">
-      <a href="aboutus.php">About</a>
-      <a href="event.php">Events</a>
-      <a href="marketplace.php">Marketplace</a>
-      <a href="tips.php">Tips</a>
-    </div>
-  </nav>
+  <?php include 'header.php'; ?>
 
   <main class="container">
     <h1>Upcoming Events</h1>

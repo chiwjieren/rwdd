@@ -5,40 +5,141 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tips — GoGreenTogether</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/tips.css">
 </head>
 <body>
-  <nav class="nav">
-    <a href="index.php" class="brand">GoGreenTogether</a>
-    <button class="hamburger" aria-label="Toggle Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div class="nav-links">
-      <a href="aboutus.php">About</a>
-      <a href="event.php">Events</a>
-      <a href="marketplace.php">Marketplace</a>
-      <a href="tips.php">Tips</a>
-    </div>
-  </nav>
+  <?php include 'header.php'; ?>
 
   <main class="container">
-    <h1>Eco Tips</h1>
-    <p class="muted">Short tips with a status and optional author (from data dictionary). :contentReference[oaicite:4]{index=4}</p>
+    <div class="tips-header">
+      <h1>Eco-Friendly Tips & Quiz</h1>
+      <p>Learn and test your knowledge about sustainable living</p>
+    </div>
 
-    <ul class="tips-list">
-      <li>Carpooling saves fuel and cuts emissions.</li>
-      <li>Use reusable bags and bottles to reduce single-use plastic.</li>
-      <li>Compost food scraps to enrich soil for gardening.</li>
-    </ul>
+    <div class="tips-nav">
+      <button class="active" data-section="green-tips">Green Tips</button>
+      <button data-section="energy-tips">Energy Saving</button>
+      <button data-section="eco-quiz">Take the Quiz</button>
+    </div>
 
-    <h2>Share a tip</h2>
-    <form id="tipForm">
-      <textarea name="tip" rows="3" placeholder="Share a short eco tip..." required></textarea>
-      <button class="btn" type="submit">Submit</button>
-    </form>
+    <!-- Share a Tip Form -->
+    <div class="share-tip-container">
+      <button class="btn btn-primary" id="shareNewTip">Share Your Tip</button>
+      
+      <div class="share-tip-modal" id="shareTipModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Share Your Eco-Friendly Tip</h2>
+            <button class="close-modal">&times;</button>
+          </div>
+          <form id="shareTipForm" class="share-tip-form">
+            <div class="form-group">
+              <label for="tipTitle">Tip Title</label>
+              <input type="text" id="tipTitle" required placeholder="Enter a clear, concise title">
+            </div>
+            <div class="form-group">
+              <label for="tipContent">Your Tip</label>
+              <textarea id="tipContent" required placeholder="Share your eco-friendly tip..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="tipCategory">Category</label>
+              <select id="tipCategory" required>
+                <option value="">Select a category</option>
+                <option value="green">Green Tips</option>
+                <option value="energy">Energy Saving</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <button type="button" class="btn btn-secondary" onclick="closeShareTipModal()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Share Tip</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-    <div id="tipFeedback" class="muted" aria-live="polite"></div>
+    <!-- Green Tips Section -->
+    <section id="green-tips" class="tips-section active">
+      <div class="tip-card">
+        <h3>Reduce Plastic Waste</h3>
+        <p class="tip-content">Use reusable bags, water bottles, and containers. Say no to single-use plastics and opt for sustainable alternatives.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: EcoWarrior</span>
+          <span class="tip-category">Category: Daily Habits</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <h3>Start Composting</h3>
+        <p class="tip-content">Turn your food scraps and yard waste into nutrient-rich soil. It's easy to start with a small bin in your backyard.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: GreenThumb</span>
+          <span class="tip-category">Category: Gardening</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <h3>Sustainable Shopping</h3>
+        <p class="tip-content">Buy local, choose products with minimal packaging, and support eco-friendly brands.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: SustainableShopper</span>
+          <span class="tip-category">Category: Lifestyle</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Energy Saving Tips Section -->
+    <section id="energy-tips" class="tips-section">
+      <div class="tip-card">
+        <h3>Smart Temperature Control</h3>
+        <p class="tip-content">Set your thermostat to 68°F (20°C) in winter and 78°F (26°C) in summer. Each degree of adjustment can save on energy costs.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: EnergyExpert</span>
+          <span class="tip-category">Category: Home Energy</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <h3>LED Lighting</h3>
+        <p class="tip-content">Replace traditional bulbs with LED lights. They use up to 75% less energy and last 25 times longer.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: BrightIdeas</span>
+          <span class="tip-category">Category: Lighting</span>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <h3>Standby Power Management</h3>
+        <p class="tip-content">Unplug electronics when not in use or use a power strip to eliminate standby power consumption.</p>
+        <div class="tip-meta">
+          <span class="tip-author">By: PowerSaver</span>
+          <span class="tip-category">Category: Electronics</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="eco-quiz" class="tips-section">
+      <div class="quiz-container">
+        <div class="quiz-card">
+          <div class="question">Which of these actions saves the most energy in your home?</div>
+          <div class="options">
+            <div class="option">Using LED light bulbs</div>
+            <div class="option">Proper insulation of walls and roof</div>
+            <div class="option">Unplugging unused devices</div>
+            <div class="option">Using a smart thermostat</div>
+          </div>
+        </div>
+
+        <div class="quiz-progress">
+          <p>Question 1 of 5</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 20%"></div>
+          </div>
+          <button class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -97,5 +198,6 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="../js/main.js"></script>
+  <script src="../js/tips.js"></script>
 </body>
 </html>
