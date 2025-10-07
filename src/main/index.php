@@ -13,21 +13,21 @@
   <div class="hero-carousel">
     <div class="carousel-container">
       <div class="carousel-slide active">
-        <img src="../media/carousel-1.jpg" alt="Community garden project">
+        <img src="../media/communitygarden.jpeg" alt="Community garden project">
         <div class="carousel-content">
           <h2>"Building a Greener Future, Together"</h2>
           <p>Join our community in making sustainable living accessible to everyone</p>
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="../media/carousel-2.jpg" alt="Recycling workshop">
+        <img src="../media/Recylingworkshop.jpeg" alt="Recycling workshop">
         <div class="carousel-content">
           <h2>"Small Actions, Big Impact"</h2>
           <p>Learn how your daily choices can create positive environmental change</p>
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="../media/carousel-3.jpg" alt="Community cleanup">
+        <img src="../media/Communitycleanup.jpeg" alt="Community cleanup">
         <div class="carousel-content">
           <h2>"Together for a Cleaner Tomorrow"</h2>
           <p>Participate in our community events and make a difference</p>
@@ -59,17 +59,17 @@
       <h2>Our Flourishing Community</h2>
       <div class="community-grid">
         <div class="community-card">
-          <img src="../media/community1.jpg" alt="Community Events">
+          <img src="../media/communityevent.jpeg" alt="Community Events">
           <h3>Events</h3>
           <p>Join our workshops, cleanups, and eco-friendly activities</p>
         </div>
         <div class="community-card">
-          <img src="../media/community2.jpg" alt="Community Projects">
+          <img src="../media/communityproject.jpeg" alt="Community Projects">
           <h3>Projects</h3>
           <p>Participate in ongoing community sustainability projects</p>
         </div>
         <div class="community-card">
-          <img src="../media/community3.jpg" alt="Community Impact">
+          <img src="../media/communityimpact.jpeg" alt="Community Impact">
           <h3>Impact</h3>
           <p>See the difference we're making together</p>
         </div>
