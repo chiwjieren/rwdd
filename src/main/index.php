@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="../media/Recylingworkshop.jpeg" alt="Recycling workshop">
+        <img src="../media/recyclingworkshop.jpeg" alt="Recycling workshop">
         <div class="carousel-content">
           <h2>"Small Actions, Big Impact"</h2>
           <p>Learn how your daily choices can create positive environmental change</p>
