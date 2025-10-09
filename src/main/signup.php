@@ -1,5 +1,65 @@
 <?php
-// Placeholder for actual authentication logic
+// Start session before any output
+session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include 'db_connection.php';
+
+// Initialize variables
+$message = "";
+$error = "";
+
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    // Get form data and sanitize
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $password = mysqli_real_escape_string($conn, trim($_POST['password']));
+    $confirmPassword = mysqli_real_escape_string($conn, trim($_POST['confirm-password']));
+    
+    // Basic validation
+    if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
+        $error = "Please fill in all required fields!";
+    } 
+    
+    else if ($password !== $confirmPassword) {
+        $error = "Passwords do not match!";
+    } 
+    
+    else {  
+        // Hash the password before storing (IMPORTANT for security!)
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        
+        // SQL query to insert data using prepared statement (prevents SQL injection)
+        $stmt = $conn->prepare("INSERT INTO USER (user_name, user_subscribe, user_password, user_email) VALUES (?, 0, ?, ?)");
+        $stmt->bind_param("sss", $name, $hashedPassword, $email);
+        
+        if ($stmt->execute()) {
+            // Get the newly created user's ID
+            $userId = $conn->insert_id;
+            
+            // Create session for the user (auto-login)
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['username'] = $name;
+            $_SESSION['user_email'] = $email;
+            
+            // Redirect to home page
+            header("Location: index.php");
+            exit();
+        } else {
+            // Check if email already exists
+            if (mysqli_errno($conn) == 1062) {
+                $error = "Email already registered. Please use a different email or <a href='login.php'>login here</a>.";
+            } else {
+                $error = "Error: " . mysqli_error($conn);
+            }
+        }
+        $stmt->close();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,8 +68,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - GoGreenTogether</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <?php 
@@ -25,6 +83,18 @@
         <div class="auth-box">
             <h1>Join GoGreenTogether</h1>
             <p class="auth-description">Create your account and start making a difference in your community.</p>
+            
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-error" style="background-color: #fee; color: #c33; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (!empty($message)): ?>
+                <div class="alert alert-success" style="background-color: #efe; color: #3c3; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
             
             <form class="auth-form" action="#" method="POST">
                 <div class="form-group">
@@ -56,10 +126,8 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
                 
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" name="submit" class="btn btn-primary">Sign Up</button>
                 
                 <p class="auth-alternative">
                     Already have an account? <a href="login.php">Log In</a>
@@ -73,6 +141,5 @@
     </footer>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="../js/main.js"></script>
 </body>
 </html>

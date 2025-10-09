@@ -19,21 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Form Submission with reCAPTCHA
+    // Form Submission with reCAPTCHA (Optional)
     const forms = document.querySelectorAll('.auth-form');
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const recaptchaResponse = grecaptcha.getResponse();
-            
-            if (!recaptchaResponse) {
-                alert('Please complete the reCAPTCHA verification');
-                return;
+            // Only check reCAPTCHA if it's enabled
+            if (typeof grecaptcha !== 'undefined') {
+                e.preventDefault();
+                const recaptchaResponse = grecaptcha.getResponse();
+                
+                if (!recaptchaResponse) {
+                    alert('Please complete the reCAPTCHA verification');
+                    return;
+                }
+                
+                // If reCAPTCHA is valid, submit the form
+                form.submit();
             }
-            
-            // Form can be submitted here
-            // For now, just show a success message
-            alert('Form submitted successfully!');
+            // If reCAPTCHA is not enabled, allow normal form submission
         });
     });
 
