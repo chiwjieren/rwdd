@@ -41,17 +41,35 @@
 
   <main>
     <!-- Partner Companies Marquee -->
-    <section class="partners-section">
-      <h2>Our Partners</h2>
-      <div class="partner-marquee">
+    <section class= "partners-section">
+      <h2>Meet Our Partners</h2>
         <div class="marquee-content">
-          <img src="../media/partner1.png" alt="Partner Company 1">
-          <img src="../media/partner2.png" alt="Partner Company 2">
-          <img src="../media/partner3.png" alt="Partner Company 3">
-          <img src="../media/partner4.png" alt="Partner Company 4">
-          <img src="../media/partner5.png" alt="Partner Company 5">
+          <div class="partner-card">
+            <img src="../media/partner1.jpg" alt="Partner Company 1">
+            <h4>Jadon Wong</h4>
+            <p>Co-Founder, EcoGrow</p>
+          </div>
+          <div class="partner-card">
+            <img src="../media/partner2.jpg" alt="Partner Company 2">
+            <h4>Amelia Tan</h4>
+            <p>Project Director, GreenTech Innovations</p>
+          </div>
+          <div class="partner-card">
+            <img src="../media/partner3.jpg" alt="Partner Company 3">
+            <h4>Angela Law</h4>
+            <p>Operations Manager, RecycleHub</p>
+          </div>
+          <div class="partner-card">
+            <img src="../media/partner4.jpg" alt="Partner Company 4">
+            <h4>Aaron Lee</h4>
+            <p>CEO, EcoCycle Solutions</p>
+          </div>
+          <div class="partner-card">
+            <img src="../media/partner5.jpg" alt="Partner Company 5">
+            <h4>Adlen Chan</h4>
+            <p>Head of Partnership, GoGreen Inc.</p>
+          </div>
         </div>
-      </div>
     </section>
 
     <!-- Community Highlights -->
