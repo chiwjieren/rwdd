@@ -41,31 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             // Get the newly created user's ID
             $userId = $conn->insert_id;
             
-            // Create inventory for the new user
-            $inventoryStmt = $conn->prepare("INSERT INTO INVENTORY (user_id) VALUES (?)");
-            $inventoryStmt->bind_param("i", $userId);
+            // Create session for the user (auto-login)
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['username'] = $name;
+            $_SESSION['user_email'] = $email;
             
-            if ($inventoryStmt->execute()) {
-                // Inventory created successfully
-                $inventoryStmt->close();
-                
-                // Create session for the user (auto-login)
-                $_SESSION['user_id'] = $userId;
-                $_SESSION['username'] = $name;
-                $_SESSION['user_email'] = $email;
-                
-                // Redirect to home page
-                header("Location: index.php");
-                exit();
-            } else {
-                // Inventory creation failed - delete the user to maintain data consistency
-                $deleteStmt = $conn->prepare("DELETE FROM USER WHERE user_id = ?");
-                $deleteStmt->bind_param("i", $userId);
-                $deleteStmt->execute();
-                $deleteStmt->close();
-                
-                $error = "Error creating user inventory. Please try again.";
-            }
+            // Redirect to home page
+            header("Location: index.php");
+            exit();
         } else {
             // Check if email already exists
             if (mysqli_errno($conn) == 1062) {
