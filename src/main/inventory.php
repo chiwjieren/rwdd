@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="inventory-grid">
       <?php
       // Database connection
-      $conn = new mysqli('localhost', 'root', '', 'rwddass');
+      $conn = new mysqli('localhost', 'root', '', 'rwdd_assignment');
       if ($conn->connect_error) {
           die("Connection failed: " . $conn->connect_error);
       }
