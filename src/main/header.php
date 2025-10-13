@@ -48,6 +48,9 @@ function isLoggedIn() {
                                     <span class="request-badge"><?php echo $_SESSION['pending_requests']; ?></span>
                                 <?php endif; ?>
                             </a>
+                            <a href="inventory.php" class="dropdown-item">
+                                <i class="fas fa-boxes"></i> Inventory
+                            </a>
                             <div class="dropdown-divider"></div>
                             <a href="logout.php" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt"></i> Logout
