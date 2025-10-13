@@ -1,8 +1,0 @@
-CREATE TABLE WALLET (
-    wallet_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    wallet_balance DECIMAL(10,2) DEFAULT 0.00,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
