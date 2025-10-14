@@ -4,5 +4,5 @@ CREATE TABLE ITEM (
     item_description TEXT,
     item_image VARCHAR(255),
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE
 );

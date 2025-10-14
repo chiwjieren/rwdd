@@ -6,6 +6,6 @@ CREATE TABLE NOTIFICATION (
     notification_message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     notification_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id),
+    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,
     FOREIGN KEY (swap_request_id) REFERENCES SWAP(swap_request_id) ON DELETE CASCADE
 );
