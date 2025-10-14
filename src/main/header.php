@@ -8,6 +8,20 @@ if (session_status() === PHP_SESSION_NONE) {
 function isLoggedIn() {
     return isset($_SESSION['user_id']);
 }
+
+// Get unread notification count if user is logged in
+$unreadNotifications = 0;
+if (isLoggedIn()) {
+    $notifConn = new mysqli('localhost', 'root', '', 'rwdd_assignment');
+    if (!$notifConn->connect_error) {
+        $userId = $_SESSION['user_id'];
+        $notifQuery = $notifConn->prepare("SELECT COUNT(*) as unread_count FROM NOTIFICATION WHERE user_id = ? AND is_read = FALSE");
+        $notifQuery->bind_param("i", $userId);
+        $notifQuery->execute();
+        $unreadNotifications = $notifQuery->get_result()->fetch_assoc()['unread_count'];
+        $notifConn->close();
+    }
+}
 ?>
 
 <nav class="nav">
@@ -27,26 +41,29 @@ function isLoggedIn() {
         <div class="nav-auth">
             <?php if (isLoggedIn()): ?>
                 <div class="profile-section">
-                    <button class="notification-btn">
-                        <i class="fas fa-bell"></i>
-                        <?php if (isset($_SESSION['notifications']) && count($_SESSION['notifications']) > 0): ?>
-                            <span class="notification-badge"><?php echo count($_SESSION['notifications']); ?></span>
+                    <a href="notifications.php" class="notification-btn" style="position: relative; margin-right: 15px; text-decoration: none;">
+                        <i class="fas fa-bell" style="font-size: 20px; color: #333;"></i>
+                        <?php if ($unreadNotifications > 0): ?>
+                            <span class="notification-badge" style="position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border-radius: 10px; padding: 2px 6px; font-size: 11px; font-weight: 600;"><?php echo $unreadNotifications; ?></span>
                         <?php endif; ?>
-                    </button>
+                    </a>
                     <div class="profile-dropdown">
                         <button class="profile-btn">
-                            <img src="<?php echo $_SESSION['profile_image'] ?? '../media/default-avatar.png'; ?>" alt="Profile" class="profile-img">
+                            <img src="<?php echo !empty($_SESSION['profile_image']) ? '../media/profiles/' . $_SESSION['profile_image'] : '../media/default-avatar.png'; ?>" alt="Profile" class="profile-img">
                             <span class="profile-name"><?php echo $_SESSION['username'] ?? 'User'; ?></span>
                         </button>
                         <div class="dropdown-content">
                             <a href="profile.php" class="dropdown-item">
                                 <i class="fas fa-user"></i> Profile
                             </a>
+                            <a href="notifications.php" class="dropdown-item">
+                                <i class="fas fa-bell"></i> Notifications
+                                <?php if ($unreadNotifications > 0): ?>
+                                    <span style="background: #dc3545; color: white; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin-left: 5px;"><?php echo $unreadNotifications; ?></span>
+                                <?php endif; ?>
+                            </a>
                             <a href="myswaps.php" class="dropdown-item">
                                 <i class="fas fa-exchange-alt"></i> My Swaps
-                                <?php if (isset($_SESSION['pending_requests']) && $_SESSION['pending_requests'] > 0): ?>
-                                    <span class="request-badge"><?php echo $_SESSION['pending_requests']; ?></span>
-                                <?php endif; ?>
                             </a>
                             <a href="inventory.php" class="dropdown-item">
                                 <i class="fas fa-boxes"></i> Inventory

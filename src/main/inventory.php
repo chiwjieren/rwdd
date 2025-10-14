@@ -73,31 +73,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_item'])) {
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $itemId = intval($_GET['delete']);
     
-    // Get item details to delete image file
-    $stmt = $conn->prepare("SELECT item_image FROM ITEM WHERE item_id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $itemId, $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Check if item is involved in any swap requests
+    $swapCheck = $conn->prepare("SELECT COUNT(*) as swap_count FROM SWAP WHERE (swap_sender_item_id = ? OR swap_receiver_item_id = ?) AND swap_status IN ('pending', 'approved')");
+    $swapCheck->bind_param("ii", $itemId, $itemId);
+    $swapCheck->execute();
+    $swapResult = $swapCheck->get_result()->fetch_assoc();
     
-    if ($result->num_rows > 0) {
-        $item = $result->fetch_assoc();
+    if ($swapResult['swap_count'] > 0) {
+        $error = "Cannot delete this item. It is involved in active swap requests. Please cancel or complete those swaps first.";
+    } else {
+        // Get item details to delete image file
+        $stmt = $conn->prepare("SELECT item_image FROM ITEM WHERE item_id = ? AND user_id = ?");
+        $stmt->bind_param("ii", $itemId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        // Delete the item from database
-        $deleteStmt = $conn->prepare("DELETE FROM ITEM WHERE item_id = ? AND user_id = ?");
-        $deleteStmt->bind_param("ii", $itemId, $userId);
-        
-        if ($deleteStmt->execute()) {
-            // Delete image file if exists
-            if (!empty($item['item_image']) && file_exists('../media/items/' . $item['item_image'])) {
-                unlink('../media/items/' . $item['item_image']);
+        if ($result->num_rows > 0) {
+            $item = $result->fetch_assoc();
+            
+            // Delete the item from database
+            $deleteStmt = $conn->prepare("DELETE FROM ITEM WHERE item_id = ? AND user_id = ?");
+            $deleteStmt->bind_param("ii", $itemId, $userId);
+            
+            if ($deleteStmt->execute()) {
+                // Delete image file if exists
+                if (!empty($item['item_image']) && file_exists('../media/items/' . $item['item_image'])) {
+                    unlink('../media/items/' . $item['item_image']);
+                }
+                $message = "Item deleted successfully!";
+            } else {
+                $error = "Error deleting item.";
             }
-            $message = "Item deleted successfully!";
+            $deleteStmt->close();
         } else {
-            $error = "Error deleting item.";
+            $error = "Item not found or you don't have permission to delete it.";
         }
-        $deleteStmt->close();
+        $stmt->close();
     }
-    $stmt->close();
+    $swapCheck->close();
 }
 
 // Get all user's items
