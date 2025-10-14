@@ -74,7 +74,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $itemId = intval($_GET['delete']);
     
     // Get item details to delete image file
-    $stmt = $conn->prepare("SELECT item_image FROM ITEM WHERE item = ? AND user_id = ?");
+    $stmt = $conn->prepare("SELECT item_image FROM ITEM WHERE item_id = ? AND user_id = ?");
     $stmt->bind_param("ii", $itemId, $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -83,7 +83,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
         $item = $result->fetch_assoc();
         
         // Delete the item from database
-        $deleteStmt = $conn->prepare("DELETE FROM ITEM WHERE item = ? AND user_id = ?");
+        $deleteStmt = $conn->prepare("DELETE FROM ITEM WHERE item_id = ? AND user_id = ?");
         $deleteStmt->bind_param("ii", $itemId, $userId);
         
         if ($deleteStmt->execute()) {
@@ -101,7 +101,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
 }
 
 // Get all user's items
-$itemsQuery = $conn->prepare("SELECT item, item_name, item_description, item_image FROM ITEM WHERE user_id = ? ORDER BY item DESC");
+$itemsQuery = $conn->prepare("SELECT item_id, item_name, item_description, item_image FROM ITEM WHERE user_id = ? ORDER BY item_id DESC");
 $itemsQuery->bind_param("i", $userId);
 $itemsQuery->execute();
 $itemsResult = $itemsQuery->get_result();
@@ -372,7 +372,7 @@ $itemsResult = $itemsQuery->get_result();
               <p><?php echo !empty($item['item_description']) ? htmlspecialchars($item['item_description']) : '<em>No description</em>'; ?></p>
               
               <div class="item-actions">
-                <a href="?delete=<?php echo $item['item']; ?>" 
+                <a href="?delete=<?php echo $item['item_id']; ?>" 
                    class="btn-delete" 
                    onclick="return confirm('Are you sure you want to delete this item?')">
                   <i class="fas fa-trash"></i> Delete

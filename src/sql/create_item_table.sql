@@ -1,5 +1,5 @@
 CREATE TABLE ITEM (
-    item INT AUTO_INCREMENT PRIMARY KEY,
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
     item_name VARCHAR(100) NOT NULL,
     item_description TEXT,
     item_image VARCHAR(255),
