@@ -18,28 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    // Form Submission with reCAPTCHA (Optional)
-    const forms = document.querySelectorAll('.auth-form');
-    forms.forEach(form => {
-        form.addEventListener('submit', (e) => {
-            // Only check reCAPTCHA if it's enabled
-            if (typeof grecaptcha !== 'undefined') {
-                e.preventDefault();
-                const recaptchaResponse = grecaptcha.getResponse();
-                
-                if (!recaptchaResponse) {
-                    alert('Please complete the reCAPTCHA verification');
-                    return;
-                }
-                
-                // If reCAPTCHA is valid, submit the form
-                form.submit();
-            }
-            // If reCAPTCHA is not enabled, allow normal form submission
-        });
-    });
-
+    
     // Hamburger Menu
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
