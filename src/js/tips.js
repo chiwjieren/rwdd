@@ -1,3 +1,62 @@
+// Quiz Functionality - moved outside DOMContentLoaded to be globally accessible
+let currentQuestion = 0;
+const questions = [
+    {
+        question: "Which of these actions saves the most energy in your home?",
+        options: [
+            "Using LED light bulbs",
+            "Proper insulation of walls and roof",
+            "Unplugging unused devices",
+            "Using a smart thermostat"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the most effective way to reduce plastic waste?",
+        options: [
+            "Recycling plastic bottles",
+            "Using reusable containers",
+            "Buying products with less packaging",
+            "Using biodegradable plastics"
+        ],
+        correct: 1
+    },
+    {
+        question: "Which practice best supports local ecology?",
+        options: [
+            "Growing native plants",
+            "Installing a water fountain",
+            "Using chemical fertilizers",
+            "Removing fallen leaves"
+        ],
+        correct: 0
+    },
+    {
+        question: "What's the most eco-friendly way to dry clothes?",
+        options: [
+            "Using a dryer on eco mode",
+            "Air drying outside",
+            "Using a dehumidifier",
+            "Quick dry cycle"
+        ],
+        correct: 1
+    },
+    {
+        question: "Which transportation method has the lowest carbon footprint?",
+        options: [
+            "Electric car",
+            "Hybrid vehicle",
+            "Bicycle",
+            "Bus"
+        ],
+        correct: 2
+    }
+];
+
+// Keep track of user's answers
+let userAnswers = new Array(questions.length).fill(null);
+let score = 0;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Share Tip Modal
     const shareNewTipBtn = document.getElementById('shareNewTip');
@@ -68,78 +127,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Quiz Functionality
-    let currentQuestion = 0;
-    const questions = [
-        {
-            question: "Which of these actions saves the most energy in your home?",
-            options: [
-                "Using LED light bulbs",
-                "Proper insulation of walls and roof",
-                "Unplugging unused devices",
-                "Using a smart thermostat"
-            ],
-            correct: 1
-        },
-        {
-            question: "What is the most effective way to reduce plastic waste?",
-            options: [
-                "Recycling plastic bottles",
-                "Using reusable containers",
-                "Buying products with less packaging",
-                "Using biodegradable plastics"
-            ],
-            correct: 1
-        },
-        {
-            question: "Which practice best supports local ecology?",
-            options: [
-                "Growing native plants",
-                "Installing a water fountain",
-                "Using chemical fertilizers",
-                "Removing fallen leaves"
-            ],
-            correct: 0
-        },
-        {
-            question: "What's the most eco-friendly way to dry clothes?",
-            options: [
-                "Using a dryer on eco mode",
-                "Air drying outside",
-                "Using a dehumidifier",
-                "Quick dry cycle"
-            ],
-            correct: 1
-        },
-        {
-            question: "Which transportation method has the lowest carbon footprint?",
-            options: [
-                "Electric car",
-                "Hybrid vehicle",
-                "Bicycle",
-                "Bus"
-            ],
-            correct: 2
-        }
-    ];
+    // Handle option selection - set up event listeners
+    setupQuizListeners();
+});
 
-    // Keep track of user's answers
-    let userAnswers = new Array(questions.length).fill(null);
-    let score = 0;
-
-    // Handle option selection
+function setupQuizListeners() {
     const options = document.querySelectorAll('.option');
     options.forEach((option, index) => {
         option.addEventListener('click', () => {
             // Remove selection from other options
-            options.forEach(opt => opt.classList.remove('selected'));
+            const allOptions = document.querySelectorAll('.option');
+            allOptions.forEach(opt => opt.classList.remove('selected'));
             // Select clicked option
             option.classList.add('selected');
             // Save user's answer
             userAnswers[currentQuestion] = index;
         });
     });
-});
+}
 
 function nextQuestion() {
     const options = document.querySelectorAll('.option');
@@ -169,6 +174,9 @@ function updateQuiz() {
         option.textContent = questions[currentQuestion].options[index];
         option.classList.remove('selected');
     });
+
+    // Re-attach event listeners to new options
+    setupQuizListeners();
 
     // Update progress
     const progress = ((currentQuestion + 1) / questions.length) * 100;
