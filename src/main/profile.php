@@ -24,6 +24,11 @@ $userId = $_SESSION['user_id'];
 $message = "";
 $error = "";
 
+// Check for success message from redirect
+if (isset($_GET['success'])) {
+    $message = "Profile image updated successfully!";
+}
+
 // Get user details
 $userQuery = $conn->prepare("SELECT user_name, user_email, user_profile_image FROM USER WHERE user_id = ?");
 $userQuery->bind_param("i", $userId);
@@ -41,7 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_profile'])) {
         if (in_array($_FILES['profile_image']['type'], $allowedTypes) && $_FILES['profile_image']['size'] <= $maxSize) {
             $extension = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
             $fileName = 'profile_' . $userId . '_' . time() . '.' . $extension;
-            $uploadPath = '../media/profiles/' . $fileName;
+            $uploadDir = '../media/profiles/';
+            
+            // Create directory if it doesn't exist
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $uploadPath = $uploadDir . $fileName;
             
             if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadPath)) {
                 // Delete old profile image if exists
@@ -57,18 +69,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_profile'])) {
                     $_SESSION['profile_image'] = '../media/profiles/' . $fileName;
                     $message = "Profile image updated successfully!";
                     $user['user_profile_image'] = $fileName;
+                    // Refresh the page to show new image
+                    header("Location: profile.php?success=1");
+                    exit();
                 } else {
-                    $error = "Error updating profile image.";
+                    $error = "Error updating profile image in database.";
                 }
                 $stmt->close();
             } else {
-                $error = "Failed to upload image.";
+                $error = "Failed to upload image. Please check folder permissions.";
             }
         } else {
-            $error = "Invalid image file. Please upload JPG, PNG, or GIF under 5MB.";
+            if (!in_array($_FILES['profile_image']['type'], $allowedTypes)) {
+                $error = "Invalid file type. Please upload JPG, PNG, or GIF only.";
+            } else {
+                $error = "File too large. Maximum size is 5MB.";
+            }
         }
     } else {
-        $error = "Please select an image to upload.";
+        if ($_FILES['profile_image']['error'] != 0) {
+            $error = "Upload error: " . $_FILES['profile_image']['error'];
+        } else {
+            $error = "Please select an image to upload.";
+        }
     }
 }
 
@@ -123,6 +146,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - GoGreenTogether</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .profile-container {
@@ -131,7 +155,7 @@ $conn->close();
             padding: 20px;
         }
         
-        .profile-section {
+        .profile-content-section {
             background: white;
             padding: 30px;
             border-radius: 10px;
@@ -151,14 +175,17 @@ $conn->close();
             height: 150px;
             margin: 0 auto 20px;
             overflow: hidden;
+            border-radius: 50%;
         }
         
         .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            object-position: center;
             border: 4px solid #28a745;
+            border-radius: 50%;
+            display: block;
         }
         
         .default-avatar {
@@ -304,21 +331,6 @@ $conn->close();
     <main class="profile-container">
         <h1>My Profile</h1>
         
-        <!-- Emergency Remove Option -->
-        <?php if (!empty($user['user_profile_image'])): ?>
-            <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                <strong><i class="fas fa-exclamation-triangle" style="color: #856404;"></i> Profile Picture Issue?</strong>
-                <p style="margin: 5px 0;">If your profile picture is too large or causing display issues, you can remove it here:</p>
-                <form method="POST" style="margin: 10px 0 0 0;">
-                    <button type="submit" name="remove_profile" 
-                            style="background: #dc3545; color: white; padding: 8px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;"
-                            onclick="return confirm('Remove your profile picture?')">
-                        <i class="fas fa-trash"></i> Remove Profile Picture Now
-                    </button>
-                </form>
-            </div>
-        <?php endif; ?>
-        
         <?php if (!empty($error)): ?>
             <div class="alert alert-error">
                 <?php echo htmlspecialchars($error); ?>
@@ -332,7 +344,7 @@ $conn->close();
         <?php endif; ?>
         
         <!-- Profile Image Section -->
-        <div class="profile-section">
+        <div class="profile-content-section">
             <div class="profile-header">
                 <div class="profile-image-container">
                     <?php if (!empty($user['user_profile_image'])): ?>
@@ -376,7 +388,7 @@ $conn->close();
         </div>
         
         <!-- Profile Information Section -->
-        <div class="profile-section">
+        <div class="profile-content-section">
             <h2 class="section-title">Profile Information</h2>
             
             <form method="POST" action="">
@@ -416,5 +428,58 @@ $conn->close();
             }
         }
     </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GoGreenTogether</h3>
+                <p>Making sustainability accessible and engaging for everyone. Join our community and make a difference.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="aboutus.php">About Us</a></li>
+                    <li><a href="event.php">Events</a></li>
+                    <li><a href="marketplace.php">Marketplace</a></li>
+                    <li><a href="tips.php">Eco Tips</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Get Involved</h4>
+                <ul>
+                    <li><a href="#">Volunteer</a></li>
+                    <li><a href="#">Partner With Us</a></li>
+                    <li><a href="#">Share Your Story</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-envelope"></i> info@gogreentogether.org</li>
+                    <li><i class="fas fa-phone"></i> +60 12-345-6789</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Asia Pacific University</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 GoGreenTogether. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

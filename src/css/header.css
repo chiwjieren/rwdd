@@ -2,6 +2,7 @@
 .nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0.75rem 1.5rem;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -14,7 +15,8 @@
   font-weight: bold;
   text-decoration: none;
   color: var(--primary);
-  z-index: 2;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Centered Navigation */
@@ -50,7 +52,7 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   z-index: 2;
 }
 
@@ -65,6 +67,7 @@
   font-size: 1.2rem;
   border-radius: 50%;
   transition: background-color 0.3s;
+  margin-right: 0.5rem;
 }
 
 .notification-btn:hover {
@@ -109,6 +112,9 @@
   height: 35px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center;
+  display: block;
+  border: 2px solid var(--primary);
 }
 
 .profile-name {
@@ -125,21 +131,29 @@
   background: white;
   min-width: 200px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 0.25rem 0;
   margin-top: 0.5rem;
   z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
 }
 
-.profile-section:hover .dropdown-content {
+.profile-section:hover .dropdown-content,
+.dropdown-content:hover {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  padding: 0.625rem 1rem;
   color: var(--text);
   text-decoration: none;
   transition: background-color 0.3s;
@@ -152,7 +166,7 @@
 .dropdown-divider {
   height: 1px;
   background: var(--border);
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
 }
 
 .request-badge {

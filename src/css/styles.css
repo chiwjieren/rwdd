@@ -935,13 +935,8 @@ textarea {
   }
 
   .nav {
-    justify-content: center;
-    padding: 16px;
-  }
-
-  .brand {
-    position: absolute;
-    left: 24px;
+    justify-content: space-between;
+    padding: 16px 24px;
   }
 
   .hamburger {
@@ -950,12 +945,13 @@ textarea {
 
   .nav-links {
     display: flex;
-    position: static;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 0;
     box-shadow: none;
     flex-direction: row;
     background: none;
-    gap: 32px;
   }
 
   .nav-links a {

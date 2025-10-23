@@ -38,47 +38,46 @@ if (isLoggedIn()) {
             <a href="marketplace.php">Marketplace</a>
             <a href="tips.php">Tips</a>
         </div>
-        <div class="nav-auth">
-            <?php if (isLoggedIn()): ?>
-                <div class="profile-section">
-                    <a href="notifications.php" class="notification-btn" style="position: relative; margin-right: 15px; text-decoration: none;">
-                        <i class="fas fa-bell" style="font-size: 20px; color: #333;"></i>
+    </div>
+    <div class="nav-auth">
+        <?php if (isLoggedIn()): ?>
+            <a href="notifications.php" class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <?php if ($unreadNotifications > 0): ?>
+                    <span class="notification-badge"><?php echo $unreadNotifications; ?></span>
+                <?php endif; ?>
+            </a>
+            
+            <div class="profile-section">
+                <div class="profile-trigger">
+                    <img src="<?php echo !empty($_SESSION['profile_image']) ? $_SESSION['profile_image'] : '../media/default-avatar.png'; ?>" alt="Profile" class="profile-img">
+                    <span class="profile-name"><?php echo $_SESSION['username'] ?? 'User'; ?></span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="profile.php" class="dropdown-item">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="notifications.php" class="dropdown-item">
+                        <i class="fas fa-bell"></i> Notifications
                         <?php if ($unreadNotifications > 0): ?>
-                            <span class="notification-badge" style="position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border-radius: 10px; padding: 2px 6px; font-size: 11px; font-weight: 600;"><?php echo $unreadNotifications; ?></span>
+                            <span class="request-badge"><?php echo $unreadNotifications; ?></span>
                         <?php endif; ?>
                     </a>
-                    <div class="profile-dropdown">
-                        <button class="profile-btn">
-                            <img src="<?php echo !empty($_SESSION['profile_image']) ? '../media/profiles/' . $_SESSION['profile_image'] : '../media/default-avatar.png'; ?>" alt="Profile" class="profile-img">
-                            <span class="profile-name"><?php echo $_SESSION['username'] ?? 'User'; ?></span>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="profile.php" class="dropdown-item">
-                                <i class="fas fa-user"></i> Profile
-                            </a>
-                            <a href="notifications.php" class="dropdown-item">
-                                <i class="fas fa-bell"></i> Notifications
-                                <?php if ($unreadNotifications > 0): ?>
-                                    <span style="background: #dc3545; color: white; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin-left: 5px;"><?php echo $unreadNotifications; ?></span>
-                                <?php endif; ?>
-                            </a>
-                            <a href="myswaps.php" class="dropdown-item">
-                                <i class="fas fa-exchange-alt"></i> My Swaps
-                            </a>
-                            <a href="inventory.php" class="dropdown-item">
-                                <i class="fas fa-boxes"></i> Inventory
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="logout.php" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </div>
-                    </div>
+                    <a href="myswaps.php" class="dropdown-item">
+                        <i class="fas fa-exchange-alt"></i> My Swaps
+                    </a>
+                    <a href="inventory.php" class="dropdown-item">
+                        <i class="fas fa-boxes"></i> Inventory
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="logout.php" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </div>
-            <?php else: ?>
-                <a href="login.php" class="btn btn-primary login-btn">Login</a>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php else: ?>
+            <a href="login.php" class="btn btn-primary login-btn">Login</a>
+        <?php endif; ?>
     </div>
 </nav>
 
