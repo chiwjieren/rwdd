@@ -39,7 +39,7 @@ a:hover {
 
 /* Layout */
 body {
-  padding-top: 64px; /* Height of fixed navbar */
+  padding-top: 60px; /* Height of fixed navbar */
 }
 
 .container {
@@ -50,7 +50,7 @@ body {
 }
 
 main {
-  min-height: calc(100vh - 64px - 300px); /* Viewport height minus header and approximate footer height */
+  min-height: calc(100vh - 60px - 300px); /* Viewport height minus header and approximate footer height */
 }
 
 /* Navigation */
@@ -172,9 +172,12 @@ main {
 .hero-carousel {
   position: relative;
   width: 100%;
-  height: 80vh;
-  min-height: 400px;
+  max-width: 1200px;
+  height: 60vh;
+  min-height: 300px;
+  max-height: 500px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .carousel-container {
@@ -201,6 +204,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 12px;
 }
 
 .carousel-content {
@@ -792,14 +796,16 @@ textarea {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 40px;
+  align-items: start;
 }
 
 .footer-section h3 {
   color: #fff;
   font-size: 1.5rem;
   margin-bottom: 16px;
+  text-align: left;
 }
 
 .footer-section h4 {
@@ -899,15 +905,20 @@ textarea {
   }
 
   .footer-section {
-    text-align: center;
+    text-align: left;
+    padding: 0 16px;
+  }
+
+  .footer-section:first-child {
+    grid-row: 1;
   }
 
   .social-links {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .contact-info li {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .footer-bottom-links {

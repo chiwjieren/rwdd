@@ -2,11 +2,11 @@
 .nav {
   display: flex;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   position: relative;
-  height: 70px;
+  height: 60px;
 }
 
 .brand {
@@ -212,7 +212,7 @@
 /* Mobile Navigation */
 @media (max-width: 768px) {
   .nav {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
   }
 
   .hamburger {
