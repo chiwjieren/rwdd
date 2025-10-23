@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $_SESSION['user_id'] = $userId;
             $_SESSION['username'] = $name;
             $_SESSION['user_email'] = $email;
+            $_SESSION['profile_image'] = '../media/default-avatar.png';
             
             // Redirect to home page
             header("Location: index.php");

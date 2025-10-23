@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     if (empty($email) || empty($password)) {
         $error = "Please fill in all fields!";
     } else {
-        // Get user from database
-        $stmt = $conn->prepare("SELECT user_id, user_name, user_email, user_password FROM USER WHERE user_email = ?");
+        // Get user from database including profile image
+        $stmt = $conn->prepare("SELECT user_id, user_name, user_email, user_password, user_profile_image FROM USER WHERE user_email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['user_name'];
                 $_SESSION['user_email'] = $user['user_email'];
+                $_SESSION['profile_image'] = !empty($user['user_profile_image']) ? '../media/profiles/' . $user['user_profile_image'] : '../media/default-avatar.png';
                 
                 // Redirect to home page
                 header("Location: index.php");

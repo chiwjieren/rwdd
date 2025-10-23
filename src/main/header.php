@@ -87,17 +87,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
-    });
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.nav')) {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-        }
-    });
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    }
+
+    // Dropdown delay functionality
+    const profileSection = document.querySelector('.profile-section');
+    const dropdownContent = document.querySelector('.dropdown-content');
+    let hideTimeout;
+
+    if (profileSection && dropdownContent) {
+        // Show dropdown on hover
+        profileSection.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            dropdownContent.classList.add('show');
+        });
+
+        // Delay hiding dropdown when mouse leaves
+        profileSection.addEventListener('mouseleave', function() {
+            hideTimeout = setTimeout(function() {
+                dropdownContent.classList.remove('show');
+            }, 500); // 500ms delay before hiding
+        });
+
+        // Keep dropdown open when hovering over it
+        dropdownContent.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            dropdownContent.classList.add('show');
+        });
+
+        // Hide dropdown with delay when leaving dropdown
+        dropdownContent.addEventListener('mouseleave', function() {
+            hideTimeout = setTimeout(function() {
+                dropdownContent.classList.remove('show');
+            }, 500); // 500ms delay before hiding
+        });
+    }
 });
 </script>

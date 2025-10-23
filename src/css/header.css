@@ -142,7 +142,8 @@
 }
 
 .profile-section:hover .dropdown-content,
-.dropdown-content:hover {
+.dropdown-content:hover,
+.dropdown-content.show {
   display: block;
   opacity: 1;
   transform: translateY(0);
