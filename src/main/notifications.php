@@ -375,6 +375,79 @@ $unreadCount = $unreadQuery->get_result()->fetch_assoc()['unread_count'];
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .notifications-container {
+        margin: 20px auto;
+        padding: 10px;
+      }
+      
+      .notifications-header {
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .notification-card {
+        padding: 15px;
+      }
+      
+      .notification-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .notification-type {
+        gap: 8px;
+      }
+      
+      .notification-type i {
+        font-size: 20px;
+      }
+      
+      .swap-details {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+      }
+      
+      .swap-arrow {
+        transform: rotate(90deg);
+        font-size: 24px;
+      }
+      
+      .swap-item img,
+      .swap-item .no-image {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .notification-actions {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .no-notifications {
+        padding: 40px 20px;
+      }
+      
+      .no-notifications i {
+        font-size: 50px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .swap-item img,
+      .swap-item .no-image {
+        width: 110px;
+        height: 110px;
+      }
+    }
   </style>
 </head>
 <body>

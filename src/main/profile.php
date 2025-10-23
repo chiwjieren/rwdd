@@ -323,6 +323,48 @@ $conn->close();
             color: #666;
             text-transform: uppercase;
         }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                margin: 20px auto;
+                padding: 10px;
+            }
+            
+            .profile-content-section {
+                padding: 20px 15px;
+            }
+            
+            .profile-image-container,
+            .default-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .default-avatar {
+                font-size: 50px;
+            }
+            
+            .upload-overlay {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .form-group input[type="text"],
+            .form-group input[type="email"] {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            .btn-primary,
+            .btn-remove {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .profile-actions {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>

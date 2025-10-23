@@ -310,6 +310,47 @@ $itemsResult = $itemsQuery->get_result();
       margin-bottom: 20px;
       color: #ddd;
     }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .upload-section {
+        padding: 20px 15px;
+      }
+      
+      .inventory-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .item-card {
+        max-width: 100%;
+      }
+      
+      .form-group input[type="text"],
+      .form-group textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+      }
+      
+      .btn-primary {
+        width: 100%;
+        padding: 15px;
+      }
+      
+      .item-actions {
+        flex-direction: column;
+      }
+      
+      .btn-delete {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .inventory-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>

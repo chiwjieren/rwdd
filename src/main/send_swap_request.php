@@ -273,6 +273,61 @@ $senderItems = $senderItemsQuery->get_result();
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .swap-container {
+        margin: 20px auto;
+        padding: 10px;
+      }
+      
+      .swap-section {
+        padding: 20px 15px;
+      }
+      
+      .swap-preview {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .swap-icon {
+        transform: rotate(90deg);
+        font-size: 30px;
+      }
+      
+      .item-preview img,
+      .item-preview .no-image {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .your-items-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .selectable-item img,
+      .selectable-item .no-image {
+        height: 200px;
+      }
+      
+      .btn-primary {
+        width: 100%;
+        padding: 15px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .your-items-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .item-preview img,
+      .item-preview .no-image {
+        width: 180px;
+        height: 180px;
+      }
+    }
   </style>
 </head>
 <body>

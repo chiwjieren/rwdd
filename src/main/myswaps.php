@@ -226,6 +226,68 @@ $swaps = $swapsQuery->get_result();
       text-decoration: none;
       font-weight: 600;
     }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .swaps-container {
+        margin: 20px auto;
+        padding: 10px;
+      }
+      
+      .tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .tab {
+        padding: 12px 15px;
+        font-size: 14px;
+        flex: 1;
+        min-width: calc(50% - 5px);
+      }
+      
+      .swap-card {
+        padding: 15px;
+      }
+      
+      .swap-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .swap-details {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .swap-arrow {
+        transform: rotate(90deg);
+        font-size: 30px;
+      }
+      
+      .swap-item img,
+      .swap-item .no-image {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .no-swaps {
+        padding: 40px 20px;
+      }
+      
+      .no-swaps i {
+        font-size: 60px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .swap-item img,
+      .swap-item .no-image {
+        width: 130px;
+        height: 130px;
+      }
+    }
   </style>
 </head>
 <body>

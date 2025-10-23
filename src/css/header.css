@@ -19,6 +19,38 @@
   flex-shrink: 0;
 }
 
+/* Hide checkbox (but keep it accessible) */
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hamburger - Hidden by default on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 3px;
+  background-color: var(--primary);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Profile Section - Hidden by default */
+.mobile-profile-section {
+  display: none;
+}
+
 /* Centered Navigation */
 .nav-links {
   position: absolute;
@@ -68,6 +100,7 @@
   border-radius: 50%;
   transition: background-color 0.3s;
   margin-right: 0.5rem;
+  text-decoration: none;
 }
 
 .notification-btn:hover {
@@ -141,9 +174,7 @@
   pointer-events: none;
 }
 
-.profile-section:hover .dropdown-content,
-.dropdown-content:hover,
-.dropdown-content.show {
+.profile-section:hover .dropdown-content {
   display: block;
   opacity: 1;
   transform: translateY(0);
@@ -189,7 +220,7 @@
   font-weight: 600 !important;
   padding: 12px 36px !important;        
   border: none !important;
-  border-radius: 999px ;       
+  border-radius: 999px;       
   text-decoration: none !important;
   display: inline-block !important;
   line-height: 1.2 !important;
@@ -203,98 +234,165 @@
   color: black !important;
 }
 
-/* Mobile Menu Button */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-left: auto;
-  z-index: 1001;
-}
-
-.hamburger span {
-  width: 100%;
-  height: 2px;
-  background: var(--text);
-  transition: all 0.3s;
-}
-
 /* Mobile Navigation */
 @media (max-width: 768px) {
   .nav {
     padding: 0.5rem 1rem;
   }
 
-  .hamburger {
-    display: flex;
-    z-index: 1000;
+  .brand {
+    font-size: 1.2rem;
   }
 
+  /* Show hamburger on mobile only */
+  .hamburger {
+    display: flex !important;
+    z-index: 1001;
+  }
+
+  /* Navigation slides in from left */
   .nav-links {
-    display: none;
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     right: 0;
     bottom: 0;
     background: white;
-    padding: 80px 24px 24px;
+    padding: 1.5rem;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 999;
-    transform: none;
   }
 
-  .nav-links.active {
-    display: flex;
+  /* Show menu when checkbox is checked */
+  .nav-toggle:checked ~ .nav-links {
+    transform: translateX(0);
   }
 
+  /* Animate hamburger to X when menu is open */
+  .nav-toggle:checked ~ .hamburger .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .nav-toggle:checked ~ .hamburger .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle:checked ~ .hamburger .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Stack navigation menu vertically */
   .nav-menu {
     flex-direction: column;
     gap: 0;
     width: 100%;
+    margin-bottom: 1.5rem;
   }
 
   .nav-menu a {
     padding: 1rem;
     width: 100%;
-    text-align: center;
+    text-align: left;
     border-bottom: 1px solid var(--border);
+    font-size: 1.1rem;
   }
 
-  .profile-name {
+  /* Hide desktop auth section on mobile */
+  .nav-auth {
     display: none;
   }
 
-  .nav-auth {
-    margin-left: 0;
+  /* Show mobile profile section */
+  .mobile-profile-section {
+    display: block;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
   }
 
-  .dropdown-content {
-    position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    border-radius: 12px 12px 0 0;
+  .mobile-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 8px;
+    margin-bottom: 1rem;
   }
 
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+  .mobile-profile-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
   }
 
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
+  .mobile-profile-header span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
   }
 
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
+  .mobile-profile-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-profile-links a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+
+  .mobile-profile-links a:hover {
+    background: var(--background);
+  }
+
+  .mobile-profile-links i {
+    width: 24px;
+    color: var(--primary);
+    font-size: 1.1rem;
+  }
+
+  .mobile-badge {
+    background: #dc3545;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: auto;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav-menu {
+    gap: 1.5rem;
+  }
+
+  .nav-menu a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .profile-name {
+    display: inline-block;
+  }
+
+  .brand {
+    font-size: 1.3rem;
   }
 }

@@ -242,6 +242,65 @@ $items = $itemsQuery->get_result();
       color: #155724;
       border: 1px solid #c3e6cb;
     }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .marketplace-container {
+        margin: 20px auto;
+        padding: 10px;
+      }
+      
+      .marketplace-header {
+        margin-bottom: 30px;
+      }
+      
+      .marketplace-header h1 {
+        font-size: 1.75rem;
+      }
+      
+      .search-section {
+        padding: 15px;
+      }
+      
+      .search-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .search-bar input {
+        width: 100%;
+        font-size: 16px; /* Prevent zoom on iOS */
+      }
+      
+      .btn-search {
+        width: 100%;
+        padding: 15px;
+      }
+      
+      .items-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .item-image,
+      .item-image-placeholder {
+        height: 200px;
+      }
+      
+      .no-items {
+        padding: 40px 20px;
+      }
+      
+      .no-items i {
+        font-size: 60px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .items-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>

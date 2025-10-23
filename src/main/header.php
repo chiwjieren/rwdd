@@ -26,11 +26,17 @@ if (isLoggedIn()) {
 
 <nav class="nav">
     <a href="index.php" class="brand">GoGreenTogether</a>
-    <button class="hamburger" aria-label="Toggle Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    
+    <?php if (isLoggedIn()): ?>
+        <!-- Checkbox for mobile menu toggle (progressive enhancement) -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu">
+        <label for="nav-toggle" class="hamburger">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </label>
+    <?php endif; ?>
+    
     <div class="nav-links">
         <div class="nav-menu">
             <a href="aboutus.php">About</a>
@@ -38,7 +44,38 @@ if (isLoggedIn()) {
             <a href="marketplace.php">Marketplace</a>
             <a href="tips.php">Tips</a>
         </div>
+        
+        <?php if (isLoggedIn()): ?>
+            <!-- Mobile Profile Section (only visible on mobile) -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-header">
+                    <img src="<?php echo !empty($_SESSION['profile_image']) ? $_SESSION['profile_image'] : '../media/default-avatar.png'; ?>" alt="Profile">
+                    <span><?php echo $_SESSION['username'] ?? 'User'; ?></span>
+                </div>
+                <div class="mobile-profile-links">
+                    <a href="profile.php">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="notifications.php">
+                        <i class="fas fa-bell"></i> Notifications
+                        <?php if ($unreadNotifications > 0): ?>
+                            <span class="mobile-badge"><?php echo $unreadNotifications; ?></span>
+                        <?php endif; ?>
+                    </a>
+                    <a href="myswaps.php">
+                        <i class="fas fa-exchange-alt"></i> My Swaps
+                    </a>
+                    <a href="inventory.php">
+                        <i class="fas fa-boxes"></i> Inventory
+                    </a>
+                    <a href="logout.php">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
+    
     <div class="nav-auth">
         <?php if (isLoggedIn()): ?>
             <a href="notifications.php" class="notification-btn">
@@ -83,55 +120,57 @@ if (isLoggedIn()) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Hamburger menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelectorAll('.nav-menu a, .mobile-profile-links a');
     
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.nav')) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-            }
+    // Close mobile menu when clicking a link (progressive enhancement)
+    if (navToggle) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navToggle.checked = false;
+                }
+            });
         });
     }
-
-    // Dropdown delay functionality
+    
+    // Desktop dropdown hover functionality
     const profileSection = document.querySelector('.profile-section');
     const dropdownContent = document.querySelector('.dropdown-content');
     let hideTimeout;
 
     if (profileSection && dropdownContent) {
-        // Show dropdown on hover
+        function isDesktop() {
+            return window.innerWidth > 768;
+        }
+
+        // Only apply hover effects on desktop
         profileSection.addEventListener('mouseenter', function() {
-            clearTimeout(hideTimeout);
-            dropdownContent.classList.add('show');
+            if (isDesktop()) {
+                clearTimeout(hideTimeout);
+            }
         });
 
-        // Delay hiding dropdown when mouse leaves
         profileSection.addEventListener('mouseleave', function() {
-            hideTimeout = setTimeout(function() {
-                dropdownContent.classList.remove('show');
-            }, 500); // 500ms delay before hiding
+            if (isDesktop()) {
+                hideTimeout = setTimeout(function() {
+                    // CSS handles the hiding
+                }, 500);
+            }
         });
 
-        // Keep dropdown open when hovering over it
         dropdownContent.addEventListener('mouseenter', function() {
-            clearTimeout(hideTimeout);
-            dropdownContent.classList.add('show');
+            if (isDesktop()) {
+                clearTimeout(hideTimeout);
+            }
         });
 
-        // Hide dropdown with delay when leaving dropdown
         dropdownContent.addEventListener('mouseleave', function() {
-            hideTimeout = setTimeout(function() {
-                dropdownContent.classList.remove('show');
-            }, 500); // 500ms delay before hiding
+            if (isDesktop()) {
+                hideTimeout = setTimeout(function() {
+                    // CSS handles the hiding
+                }, 500);
+            }
         });
     }
 });
