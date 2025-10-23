@@ -135,13 +135,27 @@ function setupQuizListeners() {
     const options = document.querySelectorAll('.option');
     options.forEach((option, index) => {
         option.addEventListener('click', () => {
-            // Remove selection from other options
+            // Remove selection and feedback from other options
             const allOptions = document.querySelectorAll('.option');
-            allOptions.forEach(opt => opt.classList.remove('selected'));
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+            });
+            
             // Select clicked option
             option.classList.add('selected');
+            
             // Save user's answer
             userAnswers[currentQuestion] = index;
+            
+            // Show immediate feedback
+            const correctIndex = questions[currentQuestion].correct;
+            if (index === correctIndex) {
+                option.classList.add('correct');
+            } else {
+                option.classList.add('wrong');
+                // Also highlight the correct answer
+                allOptions[correctIndex].classList.add('correct');
+            }
         });
     });
 }
@@ -172,7 +186,7 @@ function updateQuiz() {
     const options = quizCard.querySelectorAll('.option');
     options.forEach((option, index) => {
         option.textContent = questions[currentQuestion].options[index];
-        option.classList.remove('selected');
+        option.classList.remove('selected', 'correct', 'wrong');
     });
 
     // Re-attach event listeners to new options
