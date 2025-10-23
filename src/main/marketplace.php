@@ -66,7 +66,7 @@ $items = $itemsQuery->get_result();
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Marketplace — GoGreenTogether</title>
   <link rel="stylesheet" href="../css/styles.css">
-<<<<<<< Updated upstream
+  <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     .marketplace-container {
@@ -243,11 +243,6 @@ $items = $itemsQuery->get_result();
       border: 1px solid #c3e6cb;
     }
   </style>
-=======
-  <link rel="stylesheet" href="../css/header.css">
-  <link rel="stylesheet" href="../css/marketplace.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
->>>>>>> Stashed changes
 </head>
 <body>
   <?php include 'header.php'; ?>
