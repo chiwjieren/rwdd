@@ -151,10 +151,10 @@
         <h3>GoGreenTogether</h3>
         <p>Making sustainability accessible and engaging for everyone. Join our community and make a difference.</p>
         <div class="social-links">
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
         </div>
       </div>
       
@@ -164,37 +164,32 @@
           <li><a href="aboutus.php">About Us</a></li>
           <li><a href="event.php">Events</a></li>
           <li><a href="marketplace.php">Marketplace</a></li>
-          <li><a href="tips.php">Eco Tips</a></li>
+          <li><a href="tips.php">Tips</a></li>
         </ul>
       </div>
       
       <div class="footer-section">
         <h4>Get Involved</h4>
         <ul>
-          <li><a href="#">Volunteer</a></li>
-          <li><a href="#">Partner With Us</a></li>
-          <li><a href="#">Share Your Story</a></li>
-          <li><a href="#">Newsletter</a></li>
+          <li><a href="https://wa.me/60123456789" target="_blank">Volunteer</a></li>
+          <li><a href="https://wa.me/60123456789" target="_blank">Partner With Us</a></li>
+          <li><a href="https://wa.me/60123456789" target="_blank">Share Your Story</a></li>
+          <li><a href="index.php#newsletter-section">Newsletter</a></li>
         </ul>
       </div>
       
       <div class="footer-section">
         <h4>Contact Us</h4>
         <ul class="contact-info">
-          <li><i class="fas fa-envelope"></i> info@gogreentogether.org</li>
-          <li><i class="fas fa-phone"></i> +60 12-345-6789</li>
-          <li><i class="fas fa-map-marker-alt"></i> Asia Pacific University</li>
+          <li><a href="mailto:info@gogreentogether.org"><i class="fas fa-envelope"></i> info@gogreentogether.org</a></li>
+          <li><a href="https://wa.me/60123456789" target="_blank"><i class="fas fa-phone"></i> +60 12-345-6789</a></li>
+          <li><a href="https://www.google.com/maps/search/Asia+Pacific+University,+Kuala+Lumpur" target="_blank"><i class="fas fa-map-marker-alt"></i> Asia Pacific University</a></li>
         </ul>
       </div>
     </div>
     
     <div class="footer-bottom">
       <p>&copy; 2025 GoGreenTogether. All rights reserved.</p>
-      <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Cookie Policy</a>
-      </div>
     </div>
   </footer>
 

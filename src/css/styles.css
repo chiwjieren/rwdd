@@ -866,6 +866,19 @@ textarea {
   gap: 10px;
 }
 
+.contact-info li a {
+  color: #b3b3b3;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s ease;
+}
+
+.contact-info li a:hover {
+  color: #fff;
+}
+
 .contact-info li i {
   color: var(--accent);
   width: 20px;
