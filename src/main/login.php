@@ -24,7 +24,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     if (empty($email) || empty($password)) {
         $error = "Please fill in all fields!";
     } else {
-        // Get user from database including profile image
+        // Check for admin credentials first
+        if ($email === "admin" && $password === "admin123") {
+            // Admin login
+            $_SESSION['user_id'] = 0;
+            $_SESSION['username'] = 'admin';
+            $_SESSION['user_email'] = 'admin';
+            $_SESSION['is_admin'] = true;
+            $_SESSION['profile_image'] = '../media/default-avatar.png';
+            
+            // Redirect to admin dashboard
+            header("Location: admin_dashboard.php");
+            exit();
+        }
+        
+        // Regular user login
         $stmt = $conn->prepare("SELECT user_id, user_name, user_email, user_password, user_profile_image FROM USER WHERE user_email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -39,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['user_name'];
                 $_SESSION['user_email'] = $user['user_email'];
+                $_SESSION['is_admin'] = false;
                 $_SESSION['profile_image'] = !empty($user['user_profile_image']) ? '../media/profiles/' . $user['user_profile_image'] : '../media/default-avatar.png';
                 
                 // Redirect to home page
@@ -98,8 +113,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             
             <form class="auth-form" action="#" method="POST">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email / Username</label>
+                    <input type="text" id="email" name="email" required>
                 </div>
                 
                 <div class="form-group password-group">

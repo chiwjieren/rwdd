@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle form submission
-    shareTipForm.addEventListener('submit', (e) => {
+    shareTipForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Get form values
@@ -86,24 +86,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const content = document.getElementById('tipContent').value;
         const category = document.getElementById('tipCategory').value;
         
-        // Create new tip card (this is temporary - would normally go to a database)
-        const tipCard = createTipCard({
-            title: title,
-            content: content,
-            category: category,
-            author: 'Current User' // This would normally come from the logged-in user
-        });
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('tip_title', title);
+        formData.append('tip_content', content);
+        formData.append('tip_category', category);
         
-        // Add to appropriate section
-        const section = category === 'energy' ? 'energy-tips' : 'green-tips';
-        document.getElementById(section).insertBefore(tipCard, document.getElementById(section).firstChild);
-        
-        // Show success message
-        showSuccessMessage('Your tip has been shared successfully!');
-        
-        // Reset form and close modal
-        shareTipForm.reset();
-        closeShareTipModal();
+        try {
+            // Send to backend
+            const response = await fetch('submit_tip.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            // Check if response is OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success message
+                showSuccessMessage(result.message);
+                
+                // Reset form and close modal
+                shareTipForm.reset();
+                closeShareTipModal();
+                
+                // Reload page to show new tip
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message + '\nPlease check the browser console for details.');
+        }
     });
 
     // Tab Navigation

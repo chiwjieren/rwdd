@@ -1,7 +1,9 @@
-CREATE TABLE TIPS (
-    tips_id INT AUTO_INCREMENT PRIMARY KEY,
-    tips_description TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS TIP (
+    tip_id INT AUTO_INCREMENT PRIMARY KEY,
+    tip_title VARCHAR(255) NOT NULL,
+    tip_content TEXT NOT NULL,
+    tip_category VARCHAR(50) DEFAULT 'general',
     user_id INT NOT NULL,
-    tips_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE
 );

@@ -1,3 +1,10 @@
+<?php
+include 'db_connection.php';
+
+// Fetch all events from database (for demo purposes, show all events)
+// In production, you might want: WHERE event_date >= CURDATE()
+$events = $conn->query("SELECT * FROM EVENT ORDER BY event_date DESC, event_time DESC");
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,25 +37,34 @@
 
     <h2>Featured Events</h2>
     <ul class="event-list">
-      <li class="event-card">
-        <h3 class="event-title">Go Green 2025</h3>
-        <div class="meta">📅 2025-01-01 08:00 — 2025-01-01 09:00  ·  📍 Community Hall</div>
-        <p class="desc">This event aims to educate the community about protecting the environment.</p>
-        <div class="event-actions">
-          <button class="btn" onclick="addToCalendar('Go Green 2025', 'This event aims to educate the community about protecting the environment.', '2025-01-01T08:00:00', '2025-01-01T09:00:00', 'Community Hall')">Add to Calendar</button>
-          <button class="btn btn-secondary">Register</button>
-        </div>
-      </li>
-
-      <li class="event-card">
-        <h3 class="event-title">Recycling Workshop</h3>
-        <div class="meta">📅 2025-02-15 10:00 — 2025-02-15 12:00  ·  📍 City Library</div>
-        <p class="desc">Hand-on session on sorting and upcycling household waste.</p>
-        <div class="event-actions">
-          <button class="btn" onclick="addToCalendar('Recycling Workshop', 'Hand-on session on sorting and upcycling household waste.', '2025-02-15T10:00:00', '2025-02-15T12:00:00', 'City Library')">Add to Calendar</button>
-          <button class="btn btn-secondary">Register</button>
-        </div>
-      </li>
+      <?php if ($events && $events->num_rows > 0): ?>
+        <?php while ($event = $events->fetch_assoc()): ?>
+          <li class="event-card">
+            <h3 class="event-title"><?php echo htmlspecialchars($event['event_title']); ?></h3>
+            <div class="meta">
+              📅 <?php echo date('Y-m-d H:i', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?>  
+              ·  📍 <?php echo htmlspecialchars($event['event_location']); ?>
+            </div>
+            <p class="desc"><?php echo htmlspecialchars($event['event_description']); ?></p>
+            <div class="event-actions">
+              <button class="btn" onclick="addToCalendar(
+                '<?php echo addslashes($event['event_title']); ?>', 
+                '<?php echo addslashes($event['event_description']); ?>', 
+                '<?php echo date('Y-m-d\TH:i:s', strtotime($event['event_date'] . ' ' . $event['event_time'])); ?>', 
+                '<?php echo date('Y-m-d\TH:i:s', strtotime($event['event_date'] . ' ' . $event['event_time']) + 3600); ?>', 
+                '<?php echo addslashes($event['event_location']); ?>')">
+                Add to Calendar
+              </button>
+            </div>
+          </li>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <li class="event-card">
+          <h3 class="event-title">No Upcoming Events</h3>
+          <p class="desc">Check back soon for new eco-friendly events!</p>
+        </li>
+      <?php endif; ?>
+    </ul>
     </ul>
   </main>
 

@@ -1,3 +1,18 @@
+<?php
+session_start();
+include 'db_connection.php';
+
+// Fetch tips from database
+$greenTips = $conn->query("SELECT t.*, u.user_name FROM TIP t 
+                           LEFT JOIN USER u ON t.user_id = u.user_id 
+                           WHERE t.tip_category IN ('green', 'general') 
+                           ORDER BY t.created_at DESC");
+
+$energyTips = $conn->query("SELECT t.*, u.user_name FROM TIP t 
+                            LEFT JOIN USER u ON t.user_id = u.user_id 
+                            WHERE t.tip_category = 'energy' 
+                            ORDER BY t.created_at DESC");
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -63,62 +78,44 @@
 
     <!-- Green Tips Section -->
     <section id="green-tips" class="tips-section active">
-      <div class="tip-card">
-        <h3>Reduce Plastic Waste</h3>
-        <p class="tip-content">Use reusable bags, water bottles, and containers. Say no to single-use plastics and opt for sustainable alternatives.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: EcoWarrior</span>
-          <span class="tip-category">Category: Daily Habits</span>
+      <?php if ($greenTips && $greenTips->num_rows > 0): ?>
+        <?php while ($tip = $greenTips->fetch_assoc()): ?>
+          <div class="tip-card">
+            <h3><?php echo htmlspecialchars($tip['tip_title']); ?></h3>
+            <p class="tip-content"><?php echo htmlspecialchars($tip['tip_content']); ?></p>
+            <div class="tip-meta">
+              <span class="tip-author">By: <?php echo htmlspecialchars($tip['user_name'] ?? 'Anonymous'); ?></span>
+              <span class="tip-category">Category: <?php echo ucfirst(htmlspecialchars($tip['tip_category'])); ?></span>
+            </div>
+          </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="tip-card">
+          <h3>No tips yet</h3>
+          <p class="tip-content">Be the first to share a green tip! Click "Share Your Tip" above.</p>
         </div>
-      </div>
-
-      <div class="tip-card">
-        <h3>Start Composting</h3>
-        <p class="tip-content">Turn your food scraps and yard waste into nutrient-rich soil. It's easy to start with a small bin in your backyard.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: GreenThumb</span>
-          <span class="tip-category">Category: Gardening</span>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <h3>Sustainable Shopping</h3>
-        <p class="tip-content">Buy local, choose products with minimal packaging, and support eco-friendly brands.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: SustainableShopper</span>
-          <span class="tip-category">Category: Lifestyle</span>
-        </div>
-      </div>
+      <?php endif; ?>
     </section>
 
     <!-- Energy Saving Tips Section -->
     <section id="energy-tips" class="tips-section">
-      <div class="tip-card">
-        <h3>Smart Temperature Control</h3>
-        <p class="tip-content">Set your thermostat to 68°F (20°C) in winter and 78°F (26°C) in summer. Each degree of adjustment can save on energy costs.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: EnergyExpert</span>
-          <span class="tip-category">Category: Home Energy</span>
+      <?php if ($energyTips && $energyTips->num_rows > 0): ?>
+        <?php while ($tip = $energyTips->fetch_assoc()): ?>
+          <div class="tip-card">
+            <h3><?php echo htmlspecialchars($tip['tip_title']); ?></h3>
+            <p class="tip-content"><?php echo htmlspecialchars($tip['tip_content']); ?></p>
+            <div class="tip-meta">
+              <span class="tip-author">By: <?php echo htmlspecialchars($tip['user_name'] ?? 'Anonymous'); ?></span>
+              <span class="tip-category">Category: <?php echo ucfirst(htmlspecialchars($tip['tip_category'])); ?></span>
+            </div>
+          </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="tip-card">
+          <h3>No energy tips yet</h3>
+          <p class="tip-content">Be the first to share an energy-saving tip!</p>
         </div>
-      </div>
-
-      <div class="tip-card">
-        <h3>LED Lighting</h3>
-        <p class="tip-content">Replace traditional bulbs with LED lights. They use up to 75% less energy and last 25 times longer.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: BrightIdeas</span>
-          <span class="tip-category">Category: Lighting</span>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <h3>Standby Power Management</h3>
-        <p class="tip-content">Unplug electronics when not in use or use a power strip to eliminate standby power consumption.</p>
-        <div class="tip-meta">
-          <span class="tip-author">By: PowerSaver</span>
-          <span class="tip-category">Category: Electronics</span>
-        </div>
-      </div>
+      <?php endif; ?>
     </section>
 
     <!-- Quiz Section -->
