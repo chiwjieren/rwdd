@@ -147,12 +147,12 @@ $swaps = $conn->query("SELECT s.*,
                                     <td><?php echo date('M d, Y', strtotime($swap['swap_created_at'])); ?></td>
                                     <td>
                                         <?php if ($swap['swap_status'] == 'pending'): ?>
-                                            <a href="?approve=<?php echo $swap['swap_id']; ?>" 
+                                            <a href="?approve=<?php echo $swap['swap_receiver_id']; ?>" 
                                                onclick="return confirm('Approve this swap request?')"
                                                class="btn-admin btn-primary-admin btn-sm">
                                                 <i class="fas fa-check"></i> Approve
                                             </a>
-                                            <a href="?reject=<?php echo $swap['swap_id']; ?>" 
+                                            <a href="?reject=<?php echo $swap['swap_receiver_id']; ?>" 
                                                onclick="return confirm('Reject this swap request?')"
                                                class="btn-admin btn-danger-admin btn-sm">
                                                 <i class="fas fa-times"></i> Reject
