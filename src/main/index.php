@@ -1,3 +1,54 @@
+<?php
+include 'db_connection.php';
+
+$newsletterMessage = '';
+$newsletterError = '';
+
+// Handle newsletter subscription
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_email'])) {
+    $email = trim($_POST['newsletter_email']);
+    
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        try {
+            // Check if email already exists
+            $checkStmt = $conn->prepare("SELECT subscriber_id FROM NEWSLETTER_SUBSCRIBER WHERE subscriber_email = ?");
+            
+            if (!$checkStmt) {
+                $newsletterError = "Database error: " . $conn->error . " - Please check if NEWSLETTER_SUBSCRIBER table exists.";
+            } else {
+                $checkStmt->bind_param("s", $email);
+                $checkStmt->execute();
+                $result = $checkStmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    $newsletterError = "This email is already subscribed!";
+                } else {
+                    // Insert new subscriber
+                    $insertStmt = $conn->prepare("INSERT INTO NEWSLETTER_SUBSCRIBER (subscriber_email) VALUES (?)");
+                    
+                    if (!$insertStmt) {
+                        $newsletterError = "Database error: " . $conn->error;
+                    } else {
+                        $insertStmt->bind_param("s", $email);
+                        
+                        if ($insertStmt->execute()) {
+                            $newsletterMessage = "Successfully subscribed to our newsletter!";
+                        } else {
+                            $newsletterError = "Error subscribing: " . $insertStmt->error;
+                        }
+                        $insertStmt->close();
+                    }
+                }
+                $checkStmt->close();
+            }
+        } catch (Exception $e) {
+            $newsletterError = "Error: " . $e->getMessage();
+        }
+    } else {
+        $newsletterError = "Please enter a valid email address.";
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -106,9 +157,22 @@
         <div class="newsletter-content">
           <h2>Stay Updated</h2>
           <p>Subscribe to receive project updates, news, and insights</p>
-          <form class="newsletter-form" action="#" method="POST">
+          
+          <?php if ($newsletterMessage): ?>
+            <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #c3e6cb;">
+              ✓ <?php echo $newsletterMessage; ?>
+            </div>
+          <?php endif; ?>
+          
+          <?php if ($newsletterError): ?>
+            <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #f5c6cb;">
+              ✗ <?php echo $newsletterError; ?>
+            </div>
+          <?php endif; ?>
+          
+          <form class="newsletter-form" action="#newsletter-section" method="POST">
             <div class="form-group">
-              <input type="email" name="email" placeholder="Enter your email address" required>
+              <input type="email" name="newsletter_email" placeholder="Enter your email address" required>
               <button type="submit" class="btn">Subscribe</button>
             </div>
             <p class="form-notice">By subscribing, you agree to receive our newsletter and updates.</p>

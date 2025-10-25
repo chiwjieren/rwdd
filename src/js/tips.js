@@ -1,6 +1,10 @@
 // Quiz Functionality - moved outside DOMContentLoaded to be globally accessible
 let currentQuestion = 0;
-const questions = [
+
+// Use questions from database if available, otherwise use fallback questions
+let questions = typeof quizQuestionsFromDB !== 'undefined' && quizQuestionsFromDB.length > 0 
+  ? quizQuestionsFromDB 
+  : [
     {
         question: "Which of these actions saves the most energy in your home?",
         options: [
@@ -150,6 +154,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle option selection - set up event listeners
     setupQuizListeners();
+    
+    // Initialize quiz if questions exist
+    if (questions && questions.length > 0) {
+        // Reset quiz state
+        currentQuestion = 0;
+        userAnswers = new Array(questions.length).fill(null);
+        score = 0;
+        // Load first question
+        updateQuiz();
+    }
 });
 
 function setupQuizListeners() {
@@ -202,12 +216,18 @@ function updateQuiz() {
     const progressBar = document.querySelector('.progress-fill');
     const questionNumber = document.querySelector('.quiz-progress p');
 
-    // Update question and options
+    // Update question
     quizCard.querySelector('.question').textContent = questions[currentQuestion].question;
-    const options = quizCard.querySelectorAll('.option');
-    options.forEach((option, index) => {
-        option.textContent = questions[currentQuestion].options[index];
-        option.classList.remove('selected', 'correct', 'wrong');
+    
+    // Create or update options
+    const optionsContainer = quizCard.querySelector('.options');
+    optionsContainer.innerHTML = ''; // Clear existing options
+    
+    questions[currentQuestion].options.forEach((optionText, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.textContent = optionText;
+        optionsContainer.appendChild(optionDiv);
     });
 
     // Re-attach event listeners to new options

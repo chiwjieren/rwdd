@@ -12,6 +12,9 @@ $energyTips = $conn->query("SELECT t.*, u.user_name FROM TIP t
                             LEFT JOIN USER u ON t.user_id = u.user_id 
                             WHERE t.tip_category = 'energy' 
                             ORDER BY t.created_at DESC");
+
+// Fetch quiz questions from database
+$quizQuestions = $conn->query("SELECT * FROM QUIZ_QUESTION ORDER BY RAND()");
 ?>
 <!doctype html>
 <html lang="en">
@@ -120,25 +123,53 @@ $energyTips = $conn->query("SELECT t.*, u.user_name FROM TIP t
 
     <!-- Quiz Section -->
     <section id="eco-quiz" class="tips-section">
-      <div class="quiz-container">
-        <div class="quiz-card">
-          <div class="question">Which of these actions saves the most energy in your home?</div>
-          <div class="options">
-            <div class="option">Using LED light bulbs</div>
-            <div class="option">Proper insulation of walls and roof</div>
-            <div class="option">Unplugging unused devices</div>
-            <div class="option">Using a smart thermostat</div>
+      <?php if ($quizQuestions && $quizQuestions->num_rows > 0): ?>
+        <div class="quiz-container">
+          <div class="quiz-card">
+            <div class="question" id="quiz-question">Loading...</div>
+            <div class="options" id="quiz-options">
+              <!-- Options will be loaded by JavaScript -->
+            </div>
           </div>
-        </div>
 
-        <div class="quiz-progress">
-          <p>Question 1 of 5</p>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 20%"></div>
+          <div class="quiz-progress">
+            <p id="quiz-progress-text">Question 1 of <?php echo $quizQuestions->num_rows; ?></p>
+            <div class="progress-bar">
+              <div class="progress-fill" id="quiz-progress-bar" style="width: 0%"></div>
+            </div>
+            <button class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
           </div>
-          <button class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
         </div>
-      </div>
+        
+        <!-- Pass quiz questions to JavaScript -->
+        <script>
+          // Load quiz questions from PHP
+          const quizQuestionsFromDB = <?php 
+            $questionsArray = [];
+            while ($q = $quizQuestions->fetch_assoc()) {
+              $questionsArray[] = [
+                'question' => $q['question_text'],
+                'options' => [
+                  $q['option_a'],
+                  $q['option_b'],
+                  $q['option_c'],
+                  $q['option_d']
+                ],
+                'correct' => ord($q['correct_answer']) - 65, // Convert 'A', 'B', 'C', 'D' to 0, 1, 2, 3
+                'category' => $q['category']
+              ];
+            }
+            echo json_encode($questionsArray);
+          ?>;
+        </script>
+      <?php else: ?>
+        <div class="quiz-container">
+          <div class="quiz-card">
+            <h3>No Quiz Questions Available</h3>
+            <p>The admin hasn't added any quiz questions yet. Check back soon!</p>
+          </div>
+        </div>
+      <?php endif; ?>
     </section>
   </main>
 

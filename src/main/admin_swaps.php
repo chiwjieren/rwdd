@@ -16,7 +16,7 @@ $error = "";
 if (isset($_GET['delete'])) {
     $swapId = intval($_GET['delete']);
     
-    if ($conn->query("DELETE FROM SWAP WHERE swap_id = $swapId")) {
+    if ($conn->query("DELETE FROM SWAP WHERE swap_request_id = $swapId")) {
         $conn->query("INSERT INTO ADMIN_LOG (admin_username, action_type, table_name, record_id, action_details) 
                      VALUES ('admin', 'DELETE', 'SWAP', $swapId, 'Deleted swap request ID: $swapId')");
         $message = "Swap request deleted successfully!";
@@ -123,7 +123,7 @@ $swaps = $conn->query("SELECT s.*,
                         <tbody>
                             <?php while ($swap = $swaps->fetch_assoc()): ?>
                                 <tr>
-                                    <td>#<?php echo $swap['swap_id']; ?></td>
+                                    <td>#<?php echo $swap['swap_request_id']; ?></td>
                                     <td><?php echo htmlspecialchars($swap['sender_name']); ?></td>
                                     <td><?php echo htmlspecialchars($swap['sender_item_name']); ?></td>
                                     <td style="text-align: center; font-size: 1.2rem; color: var(--admin-primary);">
@@ -144,7 +144,7 @@ $swaps = $conn->query("SELECT s.*,
                                             <?php echo ucfirst($swap['swap_status']); ?>
                                         </span>
                                     </td>
-                                    <td><?php echo date('M d, Y', strtotime($swap['created_at'])); ?></td>
+                                    <td><?php echo date('M d, Y', strtotime($swap['swap_created_at'])); ?></td>
                                     <td>
                                         <?php if ($swap['swap_status'] == 'pending'): ?>
                                             <a href="?approve=<?php echo $swap['swap_id']; ?>" 
@@ -158,7 +158,7 @@ $swaps = $conn->query("SELECT s.*,
                                                 <i class="fas fa-times"></i> Reject
                                             </a>
                                         <?php endif; ?>
-                                        <a href="?delete=<?php echo $swap['swap_id']; ?>" 
+                                        <a href="?delete=<?php echo $swap['swap_request_id']; ?>" 
                                            onclick="return confirm('Are you sure you want to delete this swap request?')"
                                            class="btn-admin btn-danger-admin btn-sm">
                                             <i class="fas fa-trash"></i> Delete
