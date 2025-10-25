@@ -53,24 +53,47 @@ if (isLoggedIn()) {
                     <span><?php echo $_SESSION['username'] ?? 'User'; ?></span>
                 </div>
                 <div class="mobile-profile-links">
-                    <a href="profile.php">
-                        <i class="fas fa-user"></i> Profile
-                    </a>
-                    <a href="notifications.php">
-                        <i class="fas fa-bell"></i> Notifications
-                        <?php if ($unreadNotifications > 0): ?>
-                            <span class="mobile-badge"><?php echo $unreadNotifications; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <a href="myswaps.php">
-                        <i class="fas fa-exchange-alt"></i> My Swaps
-                    </a>
-                    <a href="inventory.php">
-                        <i class="fas fa-boxes"></i> Inventory
-                    </a>
-                    <a href="logout.php">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                    <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                        <!-- Admin Mobile Menu -->
+                        <a href="admin_dashboard.php">
+                            <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                        </a>
+                        <a href="notifications.php">
+                            <i class="fas fa-bell"></i> Notifications
+                            <?php if ($unreadNotifications > 0): ?>
+                                <span class="mobile-badge"><?php echo $unreadNotifications; ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <a href="myswaps.php">
+                            <i class="fas fa-exchange-alt"></i> My Swaps
+                        </a>
+                        <a href="inventory.php">
+                            <i class="fas fa-boxes"></i> Inventory
+                        </a>
+                        <a href="logout.php">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    <?php else: ?>
+                        <!-- Regular User Mobile Menu -->
+                        <a href="profile.php">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="notifications.php">
+                            <i class="fas fa-bell"></i> Notifications
+                            <?php if ($unreadNotifications > 0): ?>
+                                <span class="mobile-badge"><?php echo $unreadNotifications; ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <a href="myswaps.php">
+                            <i class="fas fa-exchange-alt"></i> My Swaps
+                        </a>
+                        <a href="inventory.php">
+                            <i class="fas fa-boxes"></i> Inventory
+                        </a>
+                        <a href="logout.php">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -91,25 +114,49 @@ if (isLoggedIn()) {
                     <span class="profile-name"><?php echo $_SESSION['username'] ?? 'User'; ?></span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="profile.php" class="dropdown-item">
-                        <i class="fas fa-user"></i> Profile
-                    </a>
-                    <a href="notifications.php" class="dropdown-item">
-                        <i class="fas fa-bell"></i> Notifications
-                        <?php if ($unreadNotifications > 0): ?>
-                            <span class="request-badge"><?php echo $unreadNotifications; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <a href="myswaps.php" class="dropdown-item">
-                        <i class="fas fa-exchange-alt"></i> My Swaps
-                    </a>
-                    <a href="inventory.php" class="dropdown-item">
-                        <i class="fas fa-boxes"></i> Inventory
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="logout.php" class="dropdown-item">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                    <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                        <!-- Admin Dropdown -->
+                        <a href="admin_dashboard.php" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                        </a>
+                        <a href="notifications.php" class="dropdown-item">
+                            <i class="fas fa-bell"></i> Notifications
+                            <?php if ($unreadNotifications > 0): ?>
+                                <span class="request-badge"><?php echo $unreadNotifications; ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <a href="myswaps.php" class="dropdown-item">
+                            <i class="fas fa-exchange-alt"></i> My Swaps
+                        </a>
+                        <a href="inventory.php" class="dropdown-item">
+                            <i class="fas fa-boxes"></i> Inventory
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="logout.php" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    <?php else: ?>
+                        <!-- Regular User Dropdown -->
+                        <a href="profile.php" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="notifications.php" class="dropdown-item">
+                            <i class="fas fa-bell"></i> Notifications
+                            <?php if ($unreadNotifications > 0): ?>
+                                <span class="request-badge"><?php echo $unreadNotifications; ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <a href="myswaps.php" class="dropdown-item">
+                            <i class="fas fa-exchange-alt"></i> My Swaps
+                        </a>
+                        <a href="inventory.php" class="dropdown-item">
+                            <i class="fas fa-boxes"></i> Inventory
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="logout.php" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php else: ?>
